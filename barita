@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Barita</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  padding: 15px;
+}
+input, button {
+  font-size: 16px;
+  padding: 6px;
+  margin: 4px 0;
+}
+button {
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Calculadora de Barita</h2>
+
+<label>Bbl iniciales</label><br>
+<input type="number" id="bbl" value="214"><br>
+
+<label>Densidad inicial (ppg)</label><br>
+<input type="number" id="wi" value="15.4"><br>
+
+<label>Densidad final (ppg)</label><br>
+<input type="number" id="wf" value="20"><br><br>
+
+<button onclick="calcular()">Calcular</button>
+
+<p id="resultado"></p>
+
+<script>
+function calcular() {
+
+  var bbl = parseFloat(document.getElementById("bbl").value);
+  var wi  = parseFloat(document.getElementById("wi").value);
+  var wf  = parseFloat(document.getElementById("wf").value);
+
+  if (isNaN(bbl) || isNaN(wi) || isNaN(wf)) {
+    document.getElementById("resultado").innerHTML = "Faltan datos";
+    return;
+  }
+
+  if (wf <= wi || wf >= 35) {
+    document.getElementById("resultado").innerHTML = "Revisar densidades";
+    return;
+  }
+
+  var lbPorBbl  = (1470 * (wf - wi)) / (35 - wf);
+  var lbTotales = lbPorBbl * bbl;
+  var toneladas = lbTotales / 2204.6;
+  var incBbl    = lbTotales / 1470;
+  var volFinal  = bbl + incBbl;
+
+  document.getElementById("resultado").innerHTML =
+    "<strong>Barita:</strong> " + toneladas.toFixed(2) + " tn<br>" +
+    "<strong>Incremento:</strong> " + incBbl.toFixed(1) + " bbl<br>" +
+    "<strong>Volumen final:</strong> " + volFinal.toFixed(1) + " bbl";
+}
+</script>
+
+</body>
+</html>
